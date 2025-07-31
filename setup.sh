@@ -9,8 +9,12 @@ echo "🚀 Setting up Apache Airflow on t2.micro..."
 # Update system
 sudo apt update && sudo apt upgrade -y
 
-# Install Python 3.11 and pip
-sudo apt install -y python3.11 python3.11-venv python3.11-dev python3-pip
+# Check available Python version and install
+PYTHON_VERSION=$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f1-2)
+echo "📍 Detected Python version: $PYTHON_VERSION"
+
+# Install Python and dependencies (using available version)
+sudo apt install -y python3 python3-venv python3-dev python3-pip
 sudo apt install -y build-essential libssl-dev libffi-dev
 sudo apt install -y postgresql-client  # For potential future use
 
@@ -27,7 +31,7 @@ mkdir -p $AIRFLOW_HOME
 
 # Create Python virtual environment
 cd /home/airflow
-python3.11 -m venv airflow-venv
+python3 -m venv airflow-venv
 source airflow-venv/bin/activate
 
 # Upgrade pip
